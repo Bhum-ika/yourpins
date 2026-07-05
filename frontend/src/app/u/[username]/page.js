@@ -5,19 +5,19 @@ import api from "../../api/axios";
 
 export default function PublicVault() {
   const { username } = useParams();
-  const [vault, setVault] = useState(null);
+  const [pins, setPins] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchVault = async () => {
+    const fetchPins = async () => {
       try {
         const res = await api.get(`/public/${username}`);
-        setVault(res.data);
+        setPins(res.data);
       } catch (err) {
-        setError("Vault not found");
+        setError("Pins not found");
       }
     };
-    fetchVault();
+    fetchPins();
   }, [username]);
 
   if (error) return (
@@ -26,32 +26,30 @@ export default function PublicVault() {
     </main>
   );
 
-  if (!vault) return (
+  if (!pins) return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center">
       <p className="text-gray-400 text-sm">Loading...</p>
     </main>
   );
 
   return (
-    <main className="min-h-screen bg-gray-50 px-10 py-10">
+    <main className="min-h-screen bg-gray-50 px-4 md:px-10 py-6 md:py-10">
       <div className="max-w-4xl mx-auto">
 
-        {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold tracking-tight">
-            {vault.name}'s <span className="text-blue-500">Vault</span>
+        <div className="mb-8 md:mb-10">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            {pins.name}'s <span className="text-blue-500">Pins</span>
           </h1>
-          <p className="text-xs text-gray-400 mt-1.5">@{vault.username}</p>
+          <p className="text-xs text-gray-400 mt-1.5">@{pins.username}</p>
         </div>
 
-        {/* Sections */}
-        {vault.sections.length === 0 ? (
+        {pins.sections.length === 0 ? (
           <p className="text-sm text-gray-400">No public sections yet.</p>
         ) : (
-          <div className="flex flex-col gap-8">
-            {vault.sections.map((section) => (
+          <div className="flex flex-col gap-6 md:gap-8">
+            {pins.sections.map((section) => (
               <div key={section.id}>
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
                   {section.name}
                 </h2>
                 <div className="flex flex-col gap-2">
@@ -60,24 +58,24 @@ export default function PublicVault() {
                   ) : (
                     section.links.map((link) => (
                       <div
-                        key={link._id}
-                        className="bg-white border border-gray-100 rounded-2xl px-5 py-3 flex justify-between items-center hover:shadow-md transition-shadow"
+                        key={link.id}
+                        className="bg-white border border-gray-100 rounded-2xl px-4 md:px-5 py-3 flex justify-between items-center hover:shadow-md transition-shadow"
                       >
-                        <div>
-                          <p className="text-sm font-medium">{link.title}</p>
+                        <div className="flex-1 min-w-0 mr-3">
+                          <p className="text-sm font-medium truncate">{link.title}</p>
                           
                             <a href={link.url}
                             target="_blank"
-                            className="text-xs text-gray-400 hover:underline"
+                            className="text-xs text-gray-400 hover:underline truncate block"
                           >
                             {link.url}
                           </a>
                           {link.description && (
-                            <p className="text-xs text-gray-300 mt-1">{link.description}</p>
+                            <p className="text-xs text-gray-300 mt-1 truncate">{link.description}</p>
                           )}
                         </div>
                         {link.starred && (
-                          <span className="text-yellow-400 text-base">★</span>
+                          <span className="text-yellow-400 text-base shrink-0">★</span>
                         )}
                       </div>
                     ))
