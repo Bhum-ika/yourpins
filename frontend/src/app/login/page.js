@@ -40,7 +40,7 @@ export default function Login() {
       <div className="bg-white border border-gray-100 rounded-2xl p-10 w-full max-w-sm">
 
         <h1 className="text-2xl font-bold mb-1">
-          Link<span className="text-blue-500">Vault</span>
+          Your<span className="text-blue-500">Pins</span>
         </h1>
         <p className="text-xs text-gray-400 mb-7">Welcome back</p>
 

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "LinkVault",
+  title: "YourPins",
   description: "Your personal link manager",
 };
 

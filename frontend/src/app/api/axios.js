@@ -3,7 +3,7 @@ import axios from "axios";
 //created centralized axios instance
 //set the baseURL to ease up writing it everywhere
 const api=axios.create({
-    baseURL:"https://linkvault-beta-virid.vercel.app/api"
+    baseURL:"http://localhost:5000/api"
 });
 
 //automatically adds token before every request

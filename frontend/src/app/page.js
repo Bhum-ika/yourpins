@@ -18,7 +18,7 @@ const features = [
   },
   {
     title: "Private",
-    desc: "Every link is tied to your account. No one else sees your vault, ever.",
+    desc: "Every pin is yours alone — private by default, shared only when you choose.",
     text: "#ec4899",
     hoverBg: "#fdf2f8",
     hoverBorder: "#fbcfe8",
@@ -77,8 +77,8 @@ export default function Page() {
       <div className="relative w-full">
         <nav className="sticky top-0 z-50 flex justify-between items-center px-12 py-5 bg-white/85 backdrop-blur-md border-b border-gray-100">
           <div className="flex items-center text-base font-bold">
-            <span>Link</span>
-            <span className="text-blue-500">Vault</span>
+            <span>Your</span>
+            <span className="text-blue-500">Pins</span>
           </div>
           <div className="flex items-center gap-1 text-sm border border-gray-100 rounded-full p-1.5 bg-white">
             <a
@@ -121,7 +121,7 @@ export default function Page() {
           id="hero"
           className="min-h-screen flex flex-col items-center justify-center text-center px-6"
         >
-          <h1 className="text-6xl font-extrabold tracking-tight">LINKVAULT</h1>
+          <h1 className="text-6xl font-extrabold tracking-tight">YourPins</h1>
           <div className="text-3xl text-gray-700 mt-2 mb-6">
             for your digital life
           </div>
@@ -145,7 +145,7 @@ export default function Page() {
           <div className="max-w-5xl mx-auto w-full">
             <h2 className="text-4xl font-bold tracking-tight mb-4">About</h2>
             <p className="text-gray-400 text-sm max-w-xl leading-relaxed mb-16">
-              LinkVault is a full-stack personal link manager built for people
+              YourPins is a full-stack personal link manager built for people
               who hate losing important links across tabs, chats, and browser
               bookmarks. Save once, find always.
             </p>
@@ -254,7 +254,7 @@ export default function Page() {
 
         {/* Footer */}
         <footer className="text-center py-8 border-t border-gray-100 text-xs text-gray-300">
-          © {new Date().getFullYear()} LinkVault — Built by Bhumika Sharma
+          © {new Date().getFullYear()} YourPins — Built by Bhumika Sharma
         </footer>
       </div>
     </main>

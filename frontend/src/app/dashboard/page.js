@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [name, setName] = useState("");
   const [sectionToDelete, setSectionToDelete] = useState(null);
   const [starredLinks,setStarredLinks]=useState([]);
+  const [copied,setCopied]=useState(false);
   const { token, logout, user, loading } = useAuth();
   const router = useRouter();
 
@@ -66,19 +67,31 @@ export default function Dashboard() {
       <div className="flex justify-between items-start mb-10">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Link<span className="text-blue-500">Vault</span>
+          Your<span className="text-blue-500">Pins</span>
           </h1>
           <p className="text-xs text-gray-400 mt-1.5">
             Hey,{" "}
             <span className="font-medium text-gray-600">{user?.name}</span> 👋
           </p>
         </div>
-        <button
+        <div className="flex items-center gap-3">
+          <button
+  onClick={() => {
+    navigator.clipboard.writeText(`https://yourpins.vercel.app/u/${user?.username}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }}
+  className="cursor-pointer text-sm text-gray-400 hover:text-black border border-gray-200 rounded-full px-4 py-2"
+>
+  {copied ? "Copied ✓" : "Share Pins 🔗"}
+</button>
+          <button
           onClick={handleLogout}
           className="cursor-pointer px-5 py-2 rounded-full border border-gray-200 text-sm text-gray-500 hover:text-black hover:border-black transition-all duration-300"
         >
           Logout →
         </button>
+        </div>
       </div>
 
       {/* Add Section Form */}
@@ -164,7 +177,18 @@ export default function Dashboard() {
                 </Link>
               </div>
 
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
+                <button onClick={async(e)=>{
+                  e.preventDefault();
+                  e.stopPropagation();
+                  await api.patch(`/sections/${section._id}/visibility`);
+                  fetchSections();
+                }}
+                className="cursor-pointer text-xs"
+                title={section.isPublic?"Make Private":"Make Public"}>
+                  {section.isPublic? "🔓" : "🔒"}
+
+                </button>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -176,6 +200,7 @@ export default function Dashboard() {
                   ❌
                 </button>
               </div>
+              
             </div>
           );
         })}

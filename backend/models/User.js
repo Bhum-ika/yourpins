@@ -16,6 +16,15 @@ const userSchema= new mongoose.Schema({
         type:String,
         required:true,
         
+    },
+    username:{
+        type:String,
+        unique:true,
+        trim:true,
+        required:true,
+        lowercase:true,
+        match: [/^[a-z0-9_-]{3,20}$/, "Username must be 3-20 characters and contain only lowercase letters, numbers, underscores, or hyphens"]
+
     }
 },{timestamps:true});
 

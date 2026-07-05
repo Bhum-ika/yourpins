@@ -36,5 +36,19 @@ const deleteSection=async(req,res)=>{
   }
 }
 
-
-module.exports={getAllSections,createSection,deleteSection};
+const toggleSectionVisibility=async(req,res)=>{
+    try{
+        const section=await Section.findOne({_id:req.params.id,user:req.user.id});
+        if(!section){
+            return res.status(404).json({
+                message:"Section not found"
+            })
+        }
+        section.isPublic=!section.isPublic;
+        await section.save();
+        res.status(200).json(section);
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
+module.exports={getAllSections,createSection,deleteSection,toggleSectionVisibility};
