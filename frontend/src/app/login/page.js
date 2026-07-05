@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import api from "../api/axios"
 import { useAuth } from "../context/AuthContext";
+import  LoadingButton from "../components/LoadingButton"
 
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+      const [loading, setLoading] = useState(false);
+
   const { login } = useAuth();
   const router = useRouter();
 
@@ -18,13 +21,14 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const res = await api.post("/auth/login", form);
       login(res.data.token, res.data.user);
       router.push("/dashboard");
     } catch (error) {
-      setError(error?.response?.data?.message || "Something went wrong")
+      setError(error?.response?.data?.message || "Something went wrong");
+      setLoading(false);
     }
   }
   return (
@@ -62,12 +66,7 @@ export default function Login() {
             onChange={handleChange}
             className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-gray-400"
           />
-          <button
-            type="submit"
-            className="bg-black text-white rounded-xl py-2.5 text-sm cursor-pointer mt-1 hover:bg-gray-800"
-          >
-            Login
-          </button>
+          <LoadingButton loading={loading} text="Login" loadingText="Logging in..." />
         </form>
 
         <p className="text-xs text-gray-400 mt-5 text-center">

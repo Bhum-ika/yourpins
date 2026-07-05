@@ -4,10 +4,12 @@ import {useRouter} from "next/navigation";
 import Link from "next/link";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import  LoadingButton from "../components/LoadingButton"
 
 export default function Register(){
     const [form,setForm]=useState({name:"",email:"",password:"",username:""});
     const [error,setError]=useState("");
+    const [loading, setLoading] = useState(false);
     const {login} =useAuth();
     const router=useRouter();
 
@@ -18,6 +20,7 @@ export default function Register(){
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
+        setLoading(true);
         try{
             const res=await api.post("/auth/register",form);
             console.log("response:", res.data); 
@@ -27,11 +30,13 @@ export default function Register(){
         }catch(error){
             console.log("error:", error);
             setError(error.response?.data?.message||"Something went wrong")
+            setLoading(false);
         }
     }
 
     return(
         <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+          
            <Link
         href="/"
         className="cursor-pointer absolute top-6 left-6 text-sm text-gray-400 hover:text-black flex items-center gap-1"
@@ -77,12 +82,7 @@ export default function Register(){
           onChange={handleChange}
            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-gray-400"
            />
-          <button
-            type="submit"
-            className="bg-black text-white rounded-xl py-2.5 text-sm cursor-pointer mt-1 hover:bg-gray-800"
-          >
-            Register
-          </button>
+          <LoadingButton loading={loading} text="Register" loadingText="Creating account..." />
         </form>
 
         <p className="text-xs text-gray-400 mt-5 text-center">
